@@ -74,7 +74,8 @@ transformAttitude(profile)          engine/transform.js — pure, no I/O, no net
 | Path | Role |
 |---|---|
 | `schema/attitude-schema.json` | Canonical JSON Schema (also served at `/attitude-schema.json`) |
-| `engine/transform.js` | The pure transformer (Node ESM + browser classic script) |
+| `engine/transform-core.js` | The pure transformer core (universal ESM: Node, browser module, worker) |
+| `engine/transform.js` | Node entry: re-exports core + autoloads schema from disk |
 | `lib/validate.js` | Zero-dep schema validator |
 | `profiles/that-boy-hi-hat.json` | Reference implementation (provenance-labeled) |
 | `profiles/fixtures/` | Differentiation fixtures (fictional, labeled `assumed`) |
