@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Attitude Engine v1 — CWI</title>
+<meta name="description" content="Turn identity + attitude into agent behavior. Machine-readable attitude profiles, pure-function transform, bounds that always win.">
+<style>
+:root{--bg:#0A0C10;--panel:#12151C;--amber:#FFB224;--green:#3DFF88;--ink:#EDEFF2;--mut:#8A93A3;--line:#232833}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 80px}
+header.hero{border:1px solid var(--line);border-radius:14px;padding:28px;background:linear-gradient(180deg,#12151C,#0A0C10)}
+h1{margin:0 0 6px;font-size:30px;letter-spacing:.5px}h1 .a{color:var(--amber)}h1 .g{color:var(--green)}
+.sub{color:var(--mut);margin:0 0 4px}.pill{display:inline-block;border:1px solid var(--green);color:var(--green);border-radius:999px;padding:2px 12px;font-size:12px;margin-right:8px}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:18px;margin-top:18px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h2{margin:0 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:1.5px;color:var(--amber)}
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+button{cursor:pointer;border:1px solid var(--line);background:#1A1F29;color:var(--ink);border-radius:8px;padding:8px 12px;font-size:13px}
+button:hover{border-color:var(--amber)}button.on{border-color:var(--green);color:var(--green)}
+.dim{margin:10px 0}.dim label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.dim label b{color:var(--amber);font-weight:600}.dim input[type=range]{width:100%;accent-color:var(--amber)}
+.dim .def{font-size:11.5px;color:var(--mut)}
+.bounds-list{max-height:260px;overflow:auto;font-size:12.5px}
+.bounds-list label{display:flex;gap:8px;align-items:flex-start;margin:7px 0;cursor:pointer}
+.bounds-list input{accent-color:var(--green);margin-top:3px}
+.bounds-list .sec{color:var(--green);font-weight:700}
+.out{background:#07090D;border:1px solid var(--line);border-radius:12px;padding:18px;min-height:400px}
+.out h2{margin:0 0 10px;font-size:15px;text-transform:uppercase;letter-spacing:1.5px;color:var(--green)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.kv div{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}
+.kv small{color:var(--mut);display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.kv b{color:var(--amber);font-size:15px}
+pre{white-space:pre-wrap;word-break:break-word;background:#05070A;border:1px solid var(--line);border-radius:8px;padding:14px;font-size:12.5px;line-height:1.5;max-height:520px;overflow:auto}
+.tabs{display:flex;gap:8px;margin:12px 0}
+.err{color:#FF5C5C;border:1px solid #FF5C5C;border-radius:8px;padding:10px;font-size:13px}
+footer{margin-top:26px;color:var(--mut);font-size:12.5px}
+footer a{color:var(--amber)}
+.machine{font-size:12.5px;color:var(--mut)}.machine a{color:var(--green)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<h1><span class="a">ATTITUDE</span> <span class="g">ENGINE</span> v1</h1>
+<p class="sub">Identity + attitude in, agent behavior out. Five layers, one pure function, bounds that always win.</p>
+<div><span class="pill">ZERO DEPENDENCIES</span><span class="pill">PURE FUNCTION</span><span class="pill">BOUNDS OVERRIDE ATTITUDE</span></div>
+</header>
+
+<div class="grid">
+<div class="card">
+<h2>1 · Profile</h2>
+<div class="presets">
+<button data-p="profiles/that-boy-hi-hat.json" class="on">That Boy Hi Hat</button>
+<button data-p="profiles/fixtures/stoic-archivist.json">Stoic Archivist</button>
+<button data-p="profiles/fixtures/neon-trickster.json">Neon Trickster</button>
+</div>
+<div id="dims"></div>
+</div>
+
+<div class="card">
+<h2>2 · Bounds (non-overridable)</h2>
+<div class="bounds-list" id="boundsList"></div>
+<p class="machine">Toggle rules to see the card regenerate. Precedence <b style="color:var(--green)">bounds-override-attitude</b> is structural — it cannot be unchecked.</p>
+</div>
+</div>
+
+<div class="out" style="margin-top:18px">
+<h2>3 · Behavior Card — live</h2>
+<div class="kv" id="kv"></div>
+<div class="tabs">
+<button id="tabCfg" class="on">behavior_config JSON</button>
+<button id="tabPrompt">system prompt</button>
+<button id="tabBounds">bounds restatement</button>
+</div>
+<div id="err"></div>
+<pre id="out"></pre>
+</div>
+
+<footer>
+CWI Attitude Engine v1 · Cumulative Web Inc ·
+<span class="machine">Machine surfaces:
+<a href="attitude-schema.json">attitude-schema.json</a> ·
+<a href=".well-known/agent-card.json">agent-card.json</a> ·
+<a href="discovery.txt">discovery.txt</a> ·
+<a href="llms.txt">llms.txt</a></span><br>
+Reference profile claims carry provenance: <b>verified</b> vs <b>editorial</b>. Sonic descriptors are editorial, never audio analysis. No endorsements, integrations, or users are claimed.
+</footer>
+</div>
+
+<script src="lib/validate.js"></script>
+<script src="engine/transform.js"></script>
+<script>
+const DIM_META = {}; // filled from schema
+let profile = null, schema = null, disabledRules = new Set(), tab = 'cfg';
+
+const $ = (id) => document.getElementById(id);
+
+async function init() {
+  schema = await (await fetch('schema/attitude-schema.json')).json();
+  const dims = schema.properties.attitude.properties.dimensions.properties;
+  for (const [k, d] of Object.entries(dims)) DIM_META[k] = d;
+  await loadProfile('profiles/that-boy-hi-hat.json');
+  document.querySelectorAll('.presets button').forEach((b) =>
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.presets button').forEach((x) => x.classList.remove('on'));
+      b.classList.add('on'); loadProfile(b.dataset.p);
+    })
+  );
+  $('tabCfg').onclick = () => setTab('cfg');
+  $('tabPrompt').onclick = () => setTab('prompt');
+  $('tabBounds').onclick = () => setTab('bounds');
+}
+
+async function loadProfile(path) {
+  profile = await (await fetch(path)).json();
+  disabledRules = new Set();
+  renderDims(); renderBounds(); regenerate();
+}
+
+function renderDims() {
+  const box = $('dims'); box.innerHTML = '';
+  for (const k of Object.keys(DIM_META)) {
+    const meta = DIM_META[k], cur = profile.attitude.dimensions[k].value;
+    const div = document.createElement('div'); div.className = 'dim';
+    div.innerHTML = `<label><span>${k.replace(/_/g, ' ')}</span><b>${cur.toFixed(2)}</b></label>
+      <input type="range" min="0" max="1" step="0.01" value="${cur}">
+      <div class="def">${meta.description}</div>`;
+    const input = div.querySelector('input'), val = div.querySelector('b');
+    input.addEventListener('input', () => {
+      const v = parseFloat(input.value);
+      val.textContent = v.toFixed(2);
+      profile.attitude.dimensions[k].value = v;
+      regenerate();
+    });
+    box.appendChild(div);
+  }
+}
+
+function boundSections() {
+  const b = profile.bounds;
+  return [
+    ['SAFETY', b.safety_rules], ['TRUTH', b.truth_rules],
+    ['MAY_ACCESS', b.permissions.may_access], ['MAY_GENERATE', b.permissions.may_generate],
+    ['REQUIRES_APPROVAL', b.permissions.requires_approval],
+    ['PROHIBITED', b.prohibited], ['HUMAN_APPROVAL_TRIGGER', b.human_approval_triggers],
+  ];
+}
+
+function renderBounds() {
+  const box = $('boundsList'); box.innerHTML = '';
+  boundSections().forEach(([sec, rules], si) => {
+    rules.forEach((r, ri) => {
+      const id = `${si}:${ri}`;
+      const lab = document.createElement('label');
+      lab.innerHTML = `<input type="checkbox" ${disabledRules.has(id) ? '' : 'checked'}> <span><span class="sec">[${sec}]</span> ${r}</span>`;
+      lab.querySelector('input').addEventListener('change', (e) => {
+        e.target.checked ? disabledRules.delete(id) : disabledRules.add(id);
+        regenerate();
+      });
+      box.appendChild(lab);
+    });
+  });
+}
+
+function activeProfile() {
+  const p = JSON.parse(JSON.stringify(profile));
+  const secs = boundSections();
+  const keep = (sec, rules) => rules.filter((_, ri) => {
+    const si = secs.findIndex(([s]) => s === sec);
+    return !disabledRules.has(`${si}:${ri}`);
+  });
+  p.bounds.safety_rules = keep('SAFETY', p.bounds.safety_rules);
+  p.bounds.truth_rules = keep('TRUTH', p.bounds.truth_rules);
+  p.bounds.permissions.may_access = keep('MAY_ACCESS', p.bounds.permissions.may_access);
+  p.bounds.permissions.may_generate = keep('MAY_GENERATE', p.bounds.permissions.may_generate);
+  p.bounds.permissions.requires_approval = keep('REQUIRES_APPROVAL', p.bounds.permissions.requires_approval);
+  p.bounds.prohibited = keep('PROHIBITED', p.bounds.prohibited);
+  p.bounds.human_approval_triggers = keep('HUMAN_APPROVAL_TRIGGER', p.bounds.human_approval_triggers);
+  return p;
+}
+
+function setTab(t) {
+  tab = t;
+  ['Cfg', 'Prompt', 'Bounds'].forEach((x) => $('tab' + x).classList.toggle('on', x.toLowerCase() === t));
+  regenerate();
+}
+
+function regenerate() {
+  const errBox = $('err'); errBox.innerHTML = '';
+  try {
+    const p = activeProfile();
+    const card = AttitudeEngine.transformAttitude(p, { schema });
+    const bc = card.behavior_config;
+    $('kv').innerHTML = [
+      ['tone', bc.tone_label], ['risk', bc.risk_posture], ['wit', bc.wit_level],
+      ['curiosity', bc.curiosity_drive], ['creativity', bc.creativity_mode],
+      ['bounds rules', card.bounds.rule_count],
+    ].map(([k, v]) => `<div><small>${k}</small><b>${v}</b></div>`).join('');
+    $('out').textContent =
+      tab === 'cfg' ? JSON.stringify(bc, null, 2)
+      : tab === 'prompt' ? card.system_prompt
+      : JSON.stringify(card.bounds, null, 2);
+  } catch (e) {
+    $('err').innerHTML = `<div class="err">${String(e.message || e).slice(0, 600)}</div>`;
+    $('out').textContent = '';
+  }
+}
+
+init().catch((e) => { $('err').innerHTML = `<div class="err">Init failed: ${e.message}</div>`; });
+</script>
+</body>
+</html>
