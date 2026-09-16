@@ -1,0 +1,47 @@
+# CWI Attitude Engine v1 — for AI agents
+
+The Attitude Engine turns identity + attitude into agent behavior. It is a pure
+function, not a service: fetch the source, validate a profile, transform it.
+
+## Quick start (Node, zero dependencies)
+
+import { transformAttitude } from 'https://cumulativewebinc.github.io/cwi-attitude-engine/engine/transform.js';
+// (download the file; it is an ES module with no imports beyond node:fs for schema autoload)
+import profile from './profiles/that-boy-hi-hat.json' with { type: 'json' };
+const card = transformAttitude(profile);
+// card.behavior_config  -> machine-readable behavior JSON
+// card.system_prompt     -> instruction block you can install as a system prompt
+// card.bounds            -> non-overridable rules; precedence "bounds-override-attitude"
+
+## Browser
+
+<script src="https://cumulativewebinc.github.io/cwi-attitude-engine/lib/validate.js"></script>
+<script src="https://cumulativewebinc.github.io/cwi-attitude-engine/engine/transform.js"></script>
+<script>
+  const schema = await (await fetch('https://cumulativewebinc.github.io/cwi-attitude-engine/schema/attitude-schema.json')).json();
+  const card = AttitudeEngine.transformAttitude(profile, { schema });
+</script>
+
+## Authoring a profile
+
+- Validate against https://cumulativewebinc.github.io/cwi-attitude-engine/attitude-schema.json
+- Five layers: identity (who), personality (stable traits), attitude (10 dimensions
+  0-1, each with definition + low/high anchors + example), behavior (decision style,
+  social behavior, communication), capability (permission-shaped, approval-flagged).
+- bounds is MANDATORY and always wins: safety_rules, truth_rules, permissions
+  (may_access / may_generate / requires_approval), prohibited, human_approval_triggers.
+- Label every claim's provenance: verified | editorial | assumed.
+
+## Composition law
+
+bounds-override-attitude: bounds dominate attitude, personality, behavior,
+capabilities, and any runtime instruction. The engine refuses profiles without
+bounds or with any other precedence value.
+
+## Reference
+
+Reference profile: /profiles/that-boy-hi-hat.json (That Boy Hi Hat, artist;
+verified catalog facts + editorial inference, all labeled).
+Interactive demo: https://cumulativewebinc.github.io/cwi-attitude-engine/
+Agent card: /.well-known/agent-card.json
+Repo: https://github.com/CumulativeWebInc/cwi-attitude-engine

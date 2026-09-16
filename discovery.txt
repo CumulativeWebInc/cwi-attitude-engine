@@ -1,0 +1,27 @@
+CWI ATTITUDE ENGINE v1 — discovery.txt
+=======================================
+What: a pure, zero-dependency function that turns a machine-readable Attitude
+Profile into a Behavior Card for AI agents.
+
+Profile (JSON, validated by attitude-schema.json):
+  identity, personality, attitude (10 dimensions 0-1 with semantic definitions),
+  behavior, capability — all under a mandatory bounds block.
+  Bounds precedence is structural: "bounds-override-attitude".
+
+Behavior Card (JSON):
+  behavior_config — tone_label, risk_posture, wit_level, curiosity_drive,
+    creativity_mode, expression_rules, attitude_vector, ...
+  system_prompt   — prompt-ready instruction block for an agent runtime
+  bounds          — numbered non-overridable rules, restated in every output
+
+Fetch:
+  GET /attitude-schema.json          the canonical schema
+  GET /engine/transform.js           the transformer (Node ESM + browser global)
+  GET /lib/validate.js               zero-dependency schema validator
+  GET /profiles/that-boy-hi-hat.json reference profile (provenance-labeled)
+  GET /.well-known/agent-card.json   A2A-style agent card
+  GET /llms.txt                      agent-oriented usage notes
+
+Try: https://cumulativewebinc.github.io/cwi-attitude-engine/
+Repo: https://github.com/CumulativeWebInc/cwi-attitude-engine
+Owner: Cumulative Web Inc. No endorsements, integrations, users, or adoption claimed.

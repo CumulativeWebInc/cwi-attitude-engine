@@ -1,0 +1,1 @@
+{"name":"cwi-attitude-engine","scripts":{"test":"node --test test/run-tests.js"},"type":"module","version":"1.0.0"}
