@@ -13,14 +13,20 @@ const card = transformAttitude(profile);
 // card.system_prompt     -> instruction block you can install as a system prompt
 // card.bounds            -> non-overridable rules; precedence "bounds-override-attitude"
 
-## Browser
+## Browser / worker (ES module, zero backend)
 
-<script src="https://cumulativewebinc.github.io/cwi-attitude-engine/lib/validate.js"></script>
-<script src="https://cumulativewebinc.github.io/cwi-attitude-engine/engine/transform.js"></script>
-<script>
+<script type="module">
+  import { validate } from 'https://cumulativewebinc.github.io/cwi-attitude-engine/lib/validate.js';
+  import { transformAttitude } from 'https://cumulativewebinc.github.io/cwi-attitude-engine/engine/transform-core.js';
   const schema = await (await fetch('https://cumulativewebinc.github.io/cwi-attitude-engine/schema/attitude-schema.json')).json();
-  const card = AttitudeEngine.transformAttitude(profile, { schema });
+  const { valid, errors } = validate(profile, schema);
+  const card = transformAttitude(profile, { schema });
 </script>
+
+## Node
+
+import { transformAttitude } from './engine/transform.js'; // autoloads schema from disk
+const card = transformAttitude(profile);
 
 ## Authoring a profile
 
