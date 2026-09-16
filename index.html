@@ -79,7 +79,7 @@ footer a{color:var(--amber)}
 </div>
 
 <footer>
-CWI Attitude Engine v1 · Cumulative Web Inc ·
+CWI Attitude Engine v1 (<span id='engver'></span>) · Cumulative Web Inc ·
 <span class="machine">Machine surfaces:
 <a href="attitude-schema.json">attitude-schema.json</a> ·
 <a href=".well-known/agent-card.json">agent-card.json</a> ·
@@ -89,9 +89,9 @@ Reference profile claims carry provenance: <b>verified</b> vs <b>editorial</b>. 
 </footer>
 </div>
 
-<script src="lib/validate.js"></script>
-<script src="engine/transform.js"></script>
-<script>
+<script type="module">
+import { validate } from './lib/validate.js';
+import { transformAttitude, ENGINE_VERSION } from './engine/transform-core.js';
 const DIM_META = {}; // filled from schema
 let profile = null, schema = null, disabledRules = new Set(), tab = 'cfg';
 
@@ -191,7 +191,9 @@ function regenerate() {
   const errBox = $('err'); errBox.innerHTML = '';
   try {
     const p = activeProfile();
-    const card = AttitudeEngine.transformAttitude(p, { schema });
+    const chk = validate(p, schema);
+    if (!chk.valid) throw new Error('Profile invalid: ' + chk.errors.slice(0,3).join('; '));
+    const card = transformAttitude(p, { schema });
     const bc = card.behavior_config;
     $('kv').innerHTML = [
       ['tone', bc.tone_label], ['risk', bc.risk_posture], ['wit', bc.wit_level],
@@ -208,6 +210,7 @@ function regenerate() {
   }
 }
 
+$('engver').textContent = 'engine ' + ENGINE_VERSION;
 init().catch((e) => { $('err').innerHTML = `<div class="err">Init failed: ${e.message}</div>`; });
 </script>
 </body>
