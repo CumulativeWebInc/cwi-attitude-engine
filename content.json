@@ -1,0 +1,36 @@
+{
+ "schema_version": "cwi.content-index/1.0",
+ "content": "cwi.content-index/1.0",
+ "name": "Attitude Engine",
+ "day": "2026-09-23",
+ "id": "retrofit-cwi-attitude-engine",
+ "type": "interactive_tool",
+ "url": "https://cumulativewebinc.github.io/cwi-attitude-engine/",
+ "description": "A pure, zero-dependency function: machine-readable Attitude Profile in, Behavior Card out (behavior_config + system-prompt block + non-overridable bounds). Bounds always override attitude \u2014 structural, not advisory.",
+ "tagline": "Turn identity + attitude into agent behavior",
+ "operator": "Cumulative Web Inc",
+ "sku": "Agent Deck SKU #41",
+ "media_files": [
+  "brand/cwi-logo.jpg"
+ ],
+ "caption": "Attitude Engine \u2014 Turn identity + attitude into agent behavior. Tune the 10 attitude dimensions, set your bounds, get a behavior config and a system-prompt block where bounds override attitude by construction.",
+ "hashtags": [
+  "#CumulativeWebInc",
+  "#AgentDeck",
+  "#AIAgents"
+ ],
+ "cta": "Generate a behavior card",
+ "try_link": "https://cumulativewebinc.github.io/cwi-attitude-engine/",
+ "machine_readable": {
+  "agent_card": ".well-known/agent-card.json",
+  "engine": "engine/transform.js (universal ESM, zero-dep)",
+  "llms": "llms.txt",
+  "reference_profile": "profiles/that-boy-hi-hat.json",
+  "schema": "attitude-schema.json"
+ },
+ "honest_limits": "Editorial inference in the reference profile is labeled editorial. Bounds are only as good as the profile author writes them.",
+ "platform_targets": [
+  "github-pages"
+ ],
+ "contact": "hp@cumulativeweb.com"
+}
