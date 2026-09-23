@@ -1,31 +1,39 @@
 {
-  "agent_card_version": "1.0",
-  "name": "CWI Attitude Engine",
-  "version": "1.0.0",
-  "provider": { "name": "Cumulative Web Inc", "url": "https://cumulativeweb.com" },
-  "description": "Turns a machine-readable Attitude Profile (identity + personality + attitude + behavior + capability, under mandatory bounds) into a Behavior Card: behavior_config JSON, a system-prompt-grade instruction block, and non-overridable bounds. Pure function, zero dependencies, deterministic.",
-  "url": "https://cumulativewebinc.github.io/cwi-attitude-engine/",
-  "endpoints": {
-    "demo": "https://cumulativewebinc.github.io/cwi-attitude-engine/",
-    "schema": "https://cumulativewebinc.github.io/cwi-attitude-engine/attitude-schema.json",
-    "transform_source": "https://cumulativewebinc.github.io/cwi-attitude-engine/engine/transform.js",
-    "reference_profile": "https://cumulativewebinc.github.io/cwi-attitude-engine/profiles/that-boy-hi-hat.json",
-    "discovery": "https://cumulativewebinc.github.io/cwi-attitude-engine/discovery.txt",
-    "llms": "https://cumulativewebinc.github.io/cwi-attitude-engine/llms.txt"
-  },
-  "capabilities": [
-    "attitude-profile-validation",
-    "behavior-card-generation",
-    "system-prompt-generation",
-    "bounds-restatement"
-  ],
-  "protocols": ["https"],
-  "authentication": { "required": false },
-  "input_schema": "https://cumulativewebinc.github.io/cwi-attitude-engine/attitude-schema.json",
-  "composition_law": "bounds-override-attitude",
-  "limits": [
-    "The engine emits behavioral configuration only; it grants no rights and makes no licensing commitments.",
-    "Capabilities never expand bounds.permissions; human_approval_triggers always route to a human."
-  ],
-  "provenance_policy": "Profile claims carry provenance: verified | editorial | assumed. Sonic descriptors are editorial, never audio analysis."
+ "schema_version": "1.0",
+ "agent_card_version": "1.0",
+ "name": "CWI Attitude Engine",
+ "version": "1.0.0",
+ "provider": {
+  "name": "Cumulative Web Inc",
+  "url": "https://cumulativeweb.com"
+ },
+ "description": "Turns a machine-readable Attitude Profile (identity + personality + attitude + behavior + capability, under mandatory bounds) into a Behavior Card: behavior_config JSON, a system-prompt-grade instruction block, and non-overridable bounds. Pure function, zero dependencies, deterministic.",
+ "url": "https://cumulativewebinc.github.io/cwi-attitude-engine/",
+ "endpoints": {
+  "demo": "https://cumulativewebinc.github.io/cwi-attitude-engine/",
+  "schema": "https://cumulativewebinc.github.io/cwi-attitude-engine/attitude-schema.json",
+  "transform_source": "https://cumulativewebinc.github.io/cwi-attitude-engine/engine/transform.js",
+  "reference_profile": "https://cumulativewebinc.github.io/cwi-attitude-engine/profiles/that-boy-hi-hat.json",
+  "discovery": "https://cumulativewebinc.github.io/cwi-attitude-engine/discovery.txt",
+  "llms": "https://cumulativewebinc.github.io/cwi-attitude-engine/llms.txt"
+ },
+ "capabilities": [
+  "attitude-profile-validation",
+  "behavior-card-generation",
+  "system-prompt-generation",
+  "bounds-restatement"
+ ],
+ "protocols": [
+  "https"
+ ],
+ "authentication": {
+  "required": false
+ },
+ "input_schema": "https://cumulativewebinc.github.io/cwi-attitude-engine/attitude-schema.json",
+ "composition_law": "bounds-override-attitude",
+ "limits": [
+  "The engine emits behavioral configuration only; it grants no rights and makes no licensing commitments.",
+  "Capabilities never expand bounds.permissions; human_approval_triggers always route to a human."
+ ],
+ "provenance_policy": "Profile claims carry provenance: verified | editorial | assumed. Sonic descriptors are editorial, never audio analysis."
 }
