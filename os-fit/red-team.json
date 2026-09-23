@@ -1,0 +1,70 @@
+{
+ "id": "rt-2026-09-23",
+ "target": "Attitude Engine OS retrofit (https://cumulativewebinc.github.io/cwi-attitude-engine/)",
+ "attacker_urn": "urn:cwi:agent:retrofit-wave2-worker",
+ "started_at": "2026-09-23T12:00:00Z",
+ "completed_at": "2026-09-23T12:30:00Z",
+ "verdict": "cleared",
+ "checklist": [
+  {
+   "item": "failure-modes",
+   "disposition": "passed",
+   "finding": "14/14 incl. differentiation kill-rule gate"
+  },
+  {
+   "item": "exploit-vectors",
+   "disposition": "passed",
+   "finding": "pure function; zero-dep; no network"
+  },
+  {
+   "item": "weakest-assumption",
+   "disposition": "mitigated",
+   "finding": "bounds only as good as profile author \u2014 labeled; editorial inference in reference profile marked editorial"
+  },
+  {
+   "item": "scale-10x",
+   "disposition": "passed",
+   "finding": "pure transform; trivially parallel"
+  },
+  {
+   "item": "scale-100x",
+   "disposition": "passed",
+   "finding": "no state"
+  },
+  {
+   "item": "api-disappearance",
+   "disposition": "passed",
+   "finding": "no external dependencies"
+  },
+  {
+   "item": "data-corruption",
+   "disposition": "passed",
+   "finding": "JSON Schema validation of profiles; schema versioned"
+  },
+  {
+   "item": "unexpected-users",
+   "disposition": "passed",
+   "finding": "interactive demo with sliders + bounds checklist"
+  },
+  {
+   "item": "credential-leak",
+   "disposition": "passed",
+   "finding": "no secrets; secret scan clean"
+  },
+  {
+   "item": "hallucination",
+   "disposition": "passed",
+   "finding": "That Boy Hi Hat reference profile: verified catalog facts; editorial inference labeled editorial"
+  },
+  {
+   "item": "malicious-instructions",
+   "disposition": "passed",
+   "finding": "bounds-override-attitude is structural; bounds restated as non-overridable rules"
+  },
+  {
+   "item": "memory-poisoning",
+   "disposition": "passed",
+   "finding": "no memory surface"
+  }
+ ]
+}
