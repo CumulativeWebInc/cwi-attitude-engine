@@ -1,0 +1,14 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Attitude Engine (#41)",
+  "url": "https://cumulativewebinc.github.io/cwi-attitude-engine/",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Web",
+  "author": {
+    "@type": "Organization",
+    "name": "Cumulative Web Inc",
+    "url": "https://cumulativeweb.com/"
+  },
+  "description": "Maps agent identity and attitude to behavior via JSON Schema attitude profiles with mandatory bounds."
+}
