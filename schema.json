@@ -10,5 +10,6 @@
     "name": "Cumulative Web Inc",
     "url": "https://cumulativeweb.com/"
   },
-  "description": "Maps agent identity and attitude to behavior via JSON Schema attitude profiles with mandatory bounds."
+  "description": "Maps agent identity and attitude to behavior via JSON Schema attitude profiles with mandatory bounds.",
+  "schema_version": "1.0.0"
 }
